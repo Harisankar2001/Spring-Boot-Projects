@@ -2,21 +2,23 @@ package com.example.Library_Book.controller;
 
 import com.example.Library_Book.model.Book;
 import com.example.Library_Book.service.BookService;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/books")
 public class BookController {
 
     @Autowired
-    private BookService bookService;
+    private final BookService bookService;
+
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Book>> getAllBooks(){
