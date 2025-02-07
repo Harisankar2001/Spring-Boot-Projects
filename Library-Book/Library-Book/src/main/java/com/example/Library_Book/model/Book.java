@@ -4,36 +4,33 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 
 @Entity
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long bookId;
     private String title;
     private String author;
     private Double price;
 
-    public Book(Long id, String author, String title, Double price) {
-        this.id = id;
-        this.author = author;
+    public Book(Long bookId, String title, String author, Double price) {
+        this.bookId = bookId;
         this.title = title;
+        this.author = author;
         this.price = price;
     }
 
     public Book() {
     }
 
-    public Long getId() {
-        return id;
+    public Long getBookId() {
+        return bookId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setBookId(Long bookId) {
+        this.bookId = bookId;
     }
 
     public String getTitle() {

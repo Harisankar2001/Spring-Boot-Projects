@@ -11,7 +11,11 @@ import java.util.List;
 public class BookService {
 
     @Autowired
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
+
+    public BookService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     public List<Book> getAllBooks(){
         return bookRepository.findAll();
@@ -28,7 +32,7 @@ public class BookService {
     public void updateBook(Long id, Book bookDetails){
         Book book = bookRepository.findById(id).orElseThrow(()->new RuntimeException("Book Not Found"));
 
-        if(book.getId()!=0){
+        if(book.getBookId()!=0){
             book.setTitle(bookDetails.getTitle());
             book.setAuthor(bookDetails.getAuthor());
             book.setPrice(bookDetails.getPrice());
