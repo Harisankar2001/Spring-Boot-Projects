@@ -1,6 +1,8 @@
 package com.hari.ECommerce.service;
 
 import com.hari.ECommerce.dao.ProductDAO;
+import com.hari.ECommerce.dao.ProductDTO;
+import com.hari.ECommerce.dao.ProductResponse;
 import com.hari.ECommerce.model.Product;
 import com.hari.ECommerce.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,9 @@ public class ProductService {
     @Autowired
     private final ProductRepository productRepository;
 
+
+
+    @Autowired
     private final ProductDAO productDAO;
 
     public ProductService(ProductRepository productRepository, ProductDAO productDAO) {
@@ -21,13 +26,26 @@ public class ProductService {
         this.productDAO = productDAO;
     }
 
-    public Product createProduct(Product product){
+    public ProductResponse createProduct(ProductDTO productDTO){
+        Product product = mapDTOToEntity(productDTO);
         Product savedProduct = productRepository.save(product);
         return productDAO.toProductResponse(savedProduct);
     }
 
-    public List<Product> getAllProducts(){
-        return productDAO.toProductResponseList(productRepository.findAll());
+    private Product mapDTOToEntity(ProductDTO productDTO){
+        Product product = new Product();
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setStock(productDTO.getStock());
+        product.setPrice(productDTO.getPrice());
+
+        return product;
+    }
+
+    public List<ProductResponse> getAllProducts(){
+        List<ProductResponse> productResponses = productDAO.toProductResponseList(productRepository.findAll());
+
+        return productResponses;
     }
 
     public Product getProductById(Long id){

@@ -1,7 +1,11 @@
 package com.hari.ECommerce.controller;
 
+import com.hari.ECommerce.dao.ProductDAO;
+import com.hari.ECommerce.dao.ProductDTO;
+import com.hari.ECommerce.dao.ProductResponse;
 import com.hari.ECommerce.model.Product;
 import com.hari.ECommerce.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/products")
 public class ProductController {
 
     @Autowired
@@ -21,12 +26,12 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody Product product){
-        return new ResponseEntity<>(productService.createProduct(product), HttpStatus.CREATED);
+    public ResponseEntity<ProductResponse> createProduct(@RequestBody @Valid ProductDTO productDTO){
+        return new ResponseEntity<>(productService.createProduct(productDTO), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts(){
+    public ResponseEntity<List<ProductResponse>> getAllProducts(){
         return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
     }
 
@@ -35,7 +40,7 @@ public class ProductController {
         return new ResponseEntity<>(productService.getProductById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<String> updateProduct(@PathVariable Long id, @RequestBody Product product){
         productService.updateProduct(id, product);
         return new ResponseEntity<>("Product Updated Successfully", HttpStatus.OK);

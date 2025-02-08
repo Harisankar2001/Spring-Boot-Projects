@@ -9,17 +9,25 @@ import java.util.stream.Collectors;
 @Component
 public class ProductDAO {
 
-    public Product toProductResponse(Product product){
-        return Product.builder()
-                .id(product.getId())
-                .name(product.getName())
-                .description(product.getDescription())
-                .price(product.getPrice())
-                .stock(product.getStock())
-                .build();
+
+    public ProductResponse toProductResponse(Product product){
+        return ProductResponse.builder()
+                .setId(product.getId())
+                .setName(product.getName())
+                .setDescription(product.getDescription())
+                .setPrice(product.getPrice())
+                .setStock(product.getStock()).build();
     }
 
-    public List<Product> toProductResponseList(List<Product> products){
-        return products.stream().map(this::toProductResponse).collect(Collectors.toList());
+    public List<ProductResponse> toProductResponseList(List<Product> products){
+        return products.stream().map(
+                product -> ProductResponse.builder()
+                        .setId(product.getId())
+                        .setName(product.getName())
+                        .setDescription(product.getDescription())
+                        .setPrice(product.getPrice())
+                        .setStock(product.getStock())
+                        .build()
+        ).collect(Collectors.toList());
     }
 }
