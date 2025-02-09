@@ -3,6 +3,7 @@ package com.hari.ECommerce.service;
 import com.hari.ECommerce.dao.ProductDAO;
 import com.hari.ECommerce.dao.ProductDTO;
 import com.hari.ECommerce.dao.ProductResponse;
+import com.hari.ECommerce.exception.ProductNotFoundException;
 import com.hari.ECommerce.model.Product;
 import com.hari.ECommerce.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class ProductService {
     }
 
     public Product getProductById(Long id){
-        return productRepository.findById(id).orElse(null);
+        return productRepository.findById(id).orElseThrow(()-> new ProductNotFoundException("Product with ID "+id+" not found"));
     }
 
     public void updateProduct(Long id, Product updatedProduct){
@@ -65,6 +66,11 @@ public class ProductService {
     }
 
     public void deleteProductById(Long id){
-        productRepository.deleteById(id);
+        Product productId = productRepository.findById(id).orElseThrow(()-> new ProductNotFoundException("Product with ID "+id+" not found"));
+        productRepository.deleteById(productId.getId());
+    }
+
+    public void deleteAllProducts(){
+        productRepository.deleteAll();
     }
 }

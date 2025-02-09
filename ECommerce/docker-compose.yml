@@ -11,6 +11,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ecommerce-network
 
   pgadmin:
     image: dpage/pgadmin4
@@ -23,6 +25,30 @@ services:
       - "5050:80"
     depends_on:
       - postgres
+    networks:
+      - ecommerce-network
+
+
+  ecommerce-app:
+    build: .
+    image: ecommerce-backend
+    container_name: ecommerce-container
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL:jdbc:postgresql://postgres:5432/ecommerce_db
+      - SPRING_DATASOURCE_USERNAME:myuser
+      - SPRING_DATASOURCE_PASSWORD:mypassword
+    ports:
+      - "8080:8080"
+    networks:
+      - ecommerce-network
+
 
 volumes:
   postgres_data:
+
+networks:
+  ecommerce-network:
+    driver: bridge

@@ -2,7 +2,6 @@ package com.hari.ECommerce.dao;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
 
 
 public class ProductDTO {

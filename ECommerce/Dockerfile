@@ -1,8 +1,8 @@
-FROM openjdk:17-jdk-slim
+#FROM openjdk:17-jdk-slim
+FROM openjdk:21-ea-1-jdk-slim
+#WORKDIR /app
 
-WORKDIR /app
-
-COPY target/*.jar app.jar
+COPY target/ECommerce-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
 
